@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { createReducer, on} from '@ngrx/store';
-import { usersLoaded, users, postsLoaded, posts, postEdited } from './api.actions';
+import { usersLoaded, users, postsLoaded, posts, postEdited, createPost, postCreated } from './api.actions';
 
 
 export type RootState = {
@@ -37,7 +37,20 @@ const _userReducer = createReducer(
   ({
     ...state,
     posts: state.posts.map(eachPost => eachPost.id === data.post.id ? data.post: eachPost)
-  }))
+  })),
+
+  on(postCreated, (state, data) =>
+  ({
+
+    ...state,
+    //post 1
+    // posts: state.posts.map(eachPost => eachPost.id === data.post.id ? data.post: eachPost)
+    posts: state.posts.concat( [data.post] )
+
+
+  })
+  )
+
 )
 
 

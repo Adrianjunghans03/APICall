@@ -39,16 +39,13 @@ export class ListComponent implements OnInit {
   newPost(){
     this.title ="";
     this.body = "";
-    //to show TextAreField
-    this.edit = true;
-    //to trigger dispatch function
     this.createPost = true;
     this.api.getUserId(this.Uid);
-    const length$ = this.store.select('rootValue').pipe(tap((data)=> length = data.posts.length));
-    console.log(this.length);
+  }
 
-
-
+  dispatchPost()
+  {
+    this.store.dispatch(createPost({post: { id: this.Uid, title: this.title, body: this.body}}))
   }
 
   getBack(){
@@ -56,10 +53,10 @@ export class ListComponent implements OnInit {
 
   }
 
-  //gets triggered when SingleUser is clicked
+  //Loads posts after selecting user
   UserClicked(userId:number){
-    this.store.dispatch(loadPosts({userId: userId}));
 
+    this.store.dispatch(loadPosts({userId: userId}));
     this.UserClick = true;
     this.Uid = userId;
     this.GetUser();
@@ -71,14 +68,14 @@ export class ListComponent implements OnInit {
     {this.store.dispatch(editPost({post: {body: this.body, title: this.title, id: this.postId}}));
     }
 
-    this.store.dispatch(createPost({post: { id: this.Uid, title: this.title, body: this.body}}))
+
   }
   showEditInputFields(postId:number, title:string, body:string){
+
     this.edit = true;
     this.title = title;
     this.body = body;
     this.postId = postId;
-
   }
 
   GetUser(){

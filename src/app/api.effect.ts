@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
-import { editPost,postEdited, loadPosts, loadUsers, postsLoaded, usersLoaded } from './api.actions';
+import { editPost,postEdited, loadPosts, loadUsers, postsLoaded, usersLoaded, createPost, postCreated } from './api.actions';
 import { ApiCallService } from './ApiCall/api-call.service';
 
 @Injectable()
@@ -37,6 +37,17 @@ export class ApiEffects {
       ))
     )
   );
+
+  createPost$ = createEffect(() => this.actions$.pipe(
+    ofType(createPost),
+    mergeMap(action => this.apiCallService.createPost( action.post.title, action.post.body, action.post.userId )
+      .pipe(
+        map(res => (postCreated({post: { userId: action.post.id, id: res.id , title: action.post.title, body:action.post.body} }))),
+        catchError(() => EMPTY)
+      ))
+    )
+  );
+
 
 
 

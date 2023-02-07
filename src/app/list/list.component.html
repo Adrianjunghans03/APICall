@@ -6,13 +6,30 @@
 
 <ng-container *ngIf="UserClick == true">
 
-  <div class="users">{{specificUser$ | async}}</div>
+
+  <div class="users" (click) ="getBack()">{{specificUser$ | async}}</div>
+
+  <button (click)="newPost()">create a new Post?</button>
+
+
+  <ng-container *ngIf="createPost == true">
+  <div class="newPost">
+
+    <textarea rows="5" cols="40"  [(ngModel)]="title"> <br> </textarea>
+    <textarea rows="5" cols="50"  [(ngModel)]="body"> <br> </textarea> <br>
+    <button (click)="dispatchPost()">Save </button>
+
+  </div>
+  </ng-container>
+
 
   <ng-container *ngIf="edit == true">
-    <textarea  placeholder="Title?"[(ngModel)]="title"> <br> </textarea>
-    <textarea  placeholder="Body?" [(ngModel)]="body"> <br> </textarea>
+
+    <textarea rows="5" cols="40"  [(ngModel)]="title"> <br> </textarea>
+    <textarea rows="5" cols="50"  [(ngModel)]="body"> <br> </textarea>
     <button (click)="SaveEdit()">Save</button>
-    <br>
+
+
 
   </ng-container>
 
